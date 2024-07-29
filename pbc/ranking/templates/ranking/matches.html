@@ -1,0 +1,13 @@
+Hi, {{ user.is }} {{ user.username }}! <br><br>
+
+<ul>
+{% for match in match_list %}
+    <li><a href="/match/{{ match.match_id }}/">{{ match.timestamp|date:"d.m.Y" }} {{ match.timestamp|time:"H:i" }}</a> 
+    between
+    <a href="/player/{{ match.player_1 }}/">{{ match.player_1.display_name }}</a>
+    and
+    <a href="/player/{{ match.player_2 }}/">{{ match.player_2.display_name }}</a>
+    {% if user.is_staff %}(<a href="/admin/ranking/match/{{ match.match_id }}/">admin</a>){% endif %}
+    </li>
+{% endfor %}
+</ul>

@@ -1,0 +1,97 @@
+Set up new repo through Github
+
+$ gh repo clone kazoo-snarls-kinky/Pbc
+$ python -m pip install Django
+$ create venv
+
+$ source venv/bin/activate
+
+now install:
+* django
+
+
+Going through the setup for 'pbc' project: https://docs.djangoproject.com/en/5.0/intro/tutorial01/
+"project is a collection; app is actual web app". Pbc will contain "ranking" app
+
+Installed django-cockroachdb
+Installed psycopg2 
+Copied sample files from Evel
+
+Updated database in settings.py to cockroach
+TODO: create test database?
+
+Running python manage.py migrate. Surely won't go smoothly the first time...
+...wow it actually worked.
+
+Now creating models from https://docs.google.com/document/d/14muiMHhc2bg5T067iQ_e3XTXDuQUkl6nvhM61RN25rA/edit
+
+...models created and created the migration
+* I had to solve [1]
+* $ python manage.py sqlmigrate ranking 0001 reasonable
+
+Created superuser: $ python manage.py createsuperuser
+username: admin
+pwd: pbcadmin
+email: alojzy.rybak@gmail.com
+skipped validation
+
+TODO: Create stronger password!!!
+
+Creating user 'karol' in the UI:
+* pwd: pbckarol (had to skip pwd similarity validation)
+* name and last name abbreviated
+* email alojzy
+* Active: yes
+* Staff (can login to admin): yes
+* Superuser: no
+* Groups: player (there's no other group yet)
+
+I want to modify the primary key for the player to be a human-readable string!
+Django tells me I cannot do it
+I try deleting the table (instead of deleting records...)
+Now migration doesn't succeed because table is not there. Django doesn't know about the current database content, just knows what you applied to your app!
+Found https://stackoverflow.com/questions/33259477/how-to-recreate-a-deleted-table-with-django-migrations
+Okay, dropped the migration from the django_migrations table, dropped all other ranking_* tables, deleted files from migrations folder... success!
+
+Tweaked some models a bit. Django seems quite smart about making non-backwards-compatible changes.
+
+Playing with the admin UI to add some defaults.
+
+First view somewhat works, with link to admin site
+
+Created a test user that's not admin:
+* test_karol, pbctesty
+
+Added a registration/login.html template (somewhere from the internet) and added a redirect to view the matches. It works.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1] $ python manage.py makemigrations polls
+SystemCheckError: System check identified some issues:
+
+ERRORS:
+ranking.Match.player_1: (fields.E304) Reverse accessor 'Player.match_set' for 'ranking.Match.player_1' clashes with reverse accessor for 'ranking.Match.player_2'.
+	HINT: Add or change a related_name argument to the definition for 'ranking.Match.player_1' or 'ranking.Match.player_2'.
+ranking.Match.player_2: (fields.E304) Reverse accessor 'Player.match_set' for 'ranking.Match.player_2' clashes with reverse accessor for 'ranking.Match.player_1'.
+	HINT: Add or change a related_name argument to the definition for 'ranking.Match.player_2' or 'ranking.Match.player_1'.
+

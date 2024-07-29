@@ -1,0 +1,6 @@
+__pycache__
+*.swp
+venv/
+cockroach-pwd.txt
+cockroach-setup.sh
+db.sqlite3
