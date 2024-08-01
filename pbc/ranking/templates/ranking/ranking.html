@@ -1,0 +1,16 @@
+Ranking for {{ discipline }}
+
+<table>
+  <tr>
+    <td>Player</td>
+    <td>Rating</td>
+    <td>Number of matches</td>
+  </tr>
+{% for rank in ranking_list %}
+  <tr>
+    <td><a href="/player/{{ rank.player }}/">{{ rank.player }}</a></td>
+    <td>{{ rank.rating }}</td>
+    <td>{{ rank.num_matches }}</td>
+  </tr>
+{% endfor %}
+</table> 
