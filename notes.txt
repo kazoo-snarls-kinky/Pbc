@@ -30,15 +30,12 @@ Now creating models from https://docs.google.com/document/d/14muiMHhc2bg5T067iQ_
 * $ python manage.py sqlmigrate ranking 0001 reasonable
 
 Created superuser: $ python manage.py createsuperuser
-username: admin
-pwd: pbcadmin
 email: alojzy.rybak@gmail.com
 skipped validation
 
 TODO: Create stronger password!!!
 
 Creating user 'karol' in the UI:
-* pwd: pbckarol (had to skip pwd similarity validation)
 * name and last name abbreviated
 * email alojzy
 * Active: yes
@@ -60,10 +57,29 @@ Playing with the admin UI to add some defaults.
 First view somewhat works, with link to admin site
 
 Created a test user that's not admin:
-* test_karol, pbctesty
+* test_karol
 
 Added a registration/login.html template (somewhere from the internet) and added a redirect to view the matches. It works.
 
+https://djangowaves.com/tips-tricks/gitignore-for-a-django-project/
+
+TODO for security:
+* https://docs.djangoproject.com/en/5.0/ref/databases/#connecting-to-the-database
+* add more users to cockroachdb admin?
+* create "register" page for players to register -- maybe?
+* somehow link the cockroachdb admin and the project admin
+* create config with db password
+
+TODOs:
+* How to work with multiple apps? Can I add "elo" app?
+* What is a generic view?
+* Hidden players and matches
+* Form to add matches
+* look into internationalization (global dictionary that's provided to context?)
+* Searchable match interface https://www.w3schools.com/howto/howto_js_filter_table.asp
+* Scrape & upload newer matches
+* Monthly vs overall rankings
+* Somehow create permanent index
 
 
 

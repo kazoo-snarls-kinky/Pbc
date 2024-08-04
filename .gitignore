@@ -3,4 +3,8 @@ __pycache__
 venv/
 cockroach-pwd.txt
 cockroach-setup.sh
+pwd.txt
 db.sqlite3
+root.crt
+pbc/config.py
+pbc/csv

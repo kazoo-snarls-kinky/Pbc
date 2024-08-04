@@ -1,10 +1,20 @@
-from ranking.models import Match
+import csv
+from ranking.models import Player, Match
 
-print(Match.objects.all())
+print(Player.objects.all())
+
+"""
+with open("players_2023.csv", 'r') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        Player.objects.create(
+            player_id= row["player_id"],
+            display_name= row["display_name"]
+        )
+"""      
 
 with open("matches_2023.csv", 'r') as file:
     reader = csv.DictReader(file)
-    for row in reader:
-        Match.objects.create(
-            discipline=row['discipline'],
-            timestamp=datetime.strptime(row['ts'])
+    for i, row in enumerate(reader):
+        if i <= 10: continue
+        Match.objects.create(**row)

@@ -45,6 +45,9 @@ map_discipline = {
     12: "TEN_BALL"
 }
 
+def to_player_id(display):
+    return display.lower().replace(' ', '_')
+
 re_missed = re.compile("(.*\].*?: )")
 
 months_of_straight_pool = [1,5,9]
@@ -117,6 +120,9 @@ def sanitize_name(s):
 
 discarded = []
 
+# player_id to player name
+players = dict()
+
 with open('matches_2023.csv', 'w', newline='') as csvfile:
     # csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
     writer = csv.DictWriter(csvfile, fieldnames=["timestamp", "player_1", "player_2", "score_1", "score_2", "discipline", "context"])
@@ -146,23 +152,26 @@ with open('matches_2023.csv', 'w', newline='') as csvfile:
                 print("Can't parse month!", line)
                 continue
             month_idx = int(month.group(1))
-            # print(parsed_date, name1, name2, score1, score2, map_discipline[month_idx])
+            score1, score2 = int(score1), int(score2)
+            pid1, pid2 = to_player_id(name1), to_player_id(name2)
+
             # print("{},{},{},{},{},{}".format(parsed_date, name1, name2, score1, score2, map_discipline[month_idx]))
             writer.writerow({
                 'timestamp': parsed_date,
-                'player_1': name1,
-                'player_2': name2,
+                'player_1_id': pid1,
+                'player_2_id': pid2,
                 'score_1': score1,
                 'score_2': score2,
                 'discipline': map_discipline[month_idx],
                 'context': "Liga"
             })
                 
-            score1, score2 = int(score1), int(score2)
             # if score1 > 9 or score2 > 9 or max(score1,score2) < 5:
             #   print(line)
             names[name1].game(name1, name2, score1, score2, month_idx)
             names[name2].game(name1, name2, score1, score2, month_idx)
+            players[pid1] = name1
+            players[pid2] = name2
             # print(line, m.group(2))
         else:
             assert(line not in special_lines)
@@ -173,6 +182,15 @@ with open('matches_2023.csv', 'w', newline='') as csvfile:
         # m2 = re.search(re_digit, line)
         # if m2 and not m: print("Missed line: ", line)
 
+with open('players_2023.csv', 'w', newline='') as csvfile:
+    writer = csv.DictWriter(csvfile, fieldnames=["player_id", "display_name"])
+    writer.writeheader()
+    for pid, name in players.items():
+        writer.writerow({
+            "player_id": pid,
+            "display_name": name
+        })
+    
 print("Discarded rows:")
 for row in discarded:
     print(row)

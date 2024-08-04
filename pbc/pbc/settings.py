@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from .config import DB_PWD
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ranking.apps.RankingConfig'
+    'ranking.apps.RankingConfig',
+    'csvimport.app.CSVImportConf',  # use AppConfig for django >=1.7 csvimport >=2.2
 ]
 
 MIDDLEWARE = [
@@ -81,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django_cockroachdb',
         'NAME': 'defaultdb',
         'USER': 'karol',
-        'PASSWORD': 'ePWJ6_6G4p-AVKGlfrYYPQ',
+        'PASSWORD': DB_PWD,
         'HOST': 'pbc-db-europe-15769.8nj.gcp-europe-west1.cockroachlabs.cloud',
         'PORT': '26257',
         'OPTIONS': {
