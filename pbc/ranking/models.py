@@ -64,16 +64,26 @@ class PlayerRating(models.Model):
     # Remove the ranking if player deleted
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     period = models.CharField(max_length=16, choices=Period)
+    month = models.DateField()
     rating = models.IntegerField()
     num_matches = models.IntegerField(default=0)
     discipline = models.CharField(max_length=16, choices=Discipline)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "{}: {} in {} from {} ({}) freshness {}".format(self.player, self.rating, self.discipline, self.period, self.month, self.updated_on)
 
 class Settings(models.Model):
     # The moment the setting was added. Maybe it should be tied to when it's valid
     created_on = models.DateTimeField(default=datetime.now)
     # Which period ranking it applies to
     period = models.CharField(max_length=16, choices=Period)
-    rating_inflation = models.IntegerField()
-    start_rating = models.IntegerField()
-    temperature = models.IntegerField()
+    rating_inflation = models.IntegerField(default=1)
+    start_rating = models.IntegerField(default=400)
+    temperature = models.IntegerField(default=20)
+
+class LigaSettings(models.Model):
+    month = models.DateField()
+    discipline = models.CharField(max_length=16, choices=Discipline)
+    race_to = models.IntegerField()
 
