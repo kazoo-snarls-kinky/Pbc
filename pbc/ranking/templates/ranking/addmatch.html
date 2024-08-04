@@ -1,0 +1,10 @@
+<form action="submit" method="post" id="addmatch">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" formaction="add">Add</button>
+</form>
+<button onclick="testMatch()">Test</button>
+<script>
+    {% include "ranking/match.js" %}
+</script>
+<div id='presubmit_result' hidden=true>Hidden data</div>

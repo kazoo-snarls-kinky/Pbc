@@ -7,7 +7,7 @@ Hi, {{ user.is }} {{ user.username }}! <br><br>
     <a href="/player/{{ match.player_1 }}/">{{ match.player_1.display_name }}</a>
     and
     <a href="/player/{{ match.player_2 }}/">{{ match.player_2.display_name }}</a>
-    {% if user.is_staff %}(<a href="/admin/ranking/match/{{ match.match_id }}/">admin</a>){% endif %}
+    {% if user.is_staff %}(<a href="/admin/ranking/match/{{ match.match_id }}/">edit</a>){% endif %}
     </li>
 {% endfor %}
 </ul>
